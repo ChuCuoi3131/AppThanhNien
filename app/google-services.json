@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "261529914527",
+    "project_id": "thanhnien-48178",
+    "storage_bucket": "thanhnien-48178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261529914527:android:a4b550f2b8012aeaffa6aa",
+        "android_client_info": {
+          "package_name": "com.example.thanhnien"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJQ5q3BbyWNYZTHeFDCTgsP-hqtB0by8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

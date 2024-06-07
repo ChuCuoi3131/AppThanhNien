@@ -99,20 +99,46 @@ fun LoginScreen(openRegister: () -> Unit,
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
-                        text = "Tên đăng nhập/Số điện thoại/Email",
+                        text = "Email",
                         color = Color.Black,
                         fontSize = 17.sp
                     );
-                    TextFieldLogin(email, onTextChange = {
-                        email = it
-                    })
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = {
+                                        email = it
+                                        },
+                        modifier = Modifier.width(370.dp),
+                        placeholder = {},
+                        textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
+                    )
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(text = "Mật khẩu", color = Color.Black, fontSize = 17.sp);
-                    TextFieldPasswordLogin(password, isShowPassword, onPasswordChange = {
-                        password = it
-                    }, showPasswordChange = {
-                        isShowPassword = !isShowPassword
-                    })
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = {
+                                        password = it
+                        },
+                        modifier = Modifier.width(370.dp),
+                        placeholder = {},
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                isShowPassword = !isShowPassword
+                            }) {
+                                Icon(
+                                    painterResource(
+                                        id = if (isShowPassword) R.drawable.baseline_visibility_24
+                                        else R.drawable.baseline_visibility_off_24
+                                    ),
+                                    contentDescription = null,
+                                    tint = Color.Black,
+                                )
+                            }
+                        },
+                        textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
+                        visualTransformation = if (isShowPassword) VisualTransformation.None
+                        else PasswordVisualTransformation(),
+                    )
                     Spacer(modifier = Modifier.height(30.dp))
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -120,9 +146,24 @@ fun LoginScreen(openRegister: () -> Unit,
                             .width(380.dp)
 //                    verticalAlignment = Alignment.CenterVertically
                     ) {
-                        CustomCheckBox("Ghi nhớ đăng nhập", isCheck, onCheckBoxChange = {
-                            isCheck = !isCheck
-                        })
+                        Row(
+                            modifier = Modifier.selectable(
+                                selected = isCheck,
+                                onClick = {
+                                          isCheck = !isCheck
+                                },
+                                role = Role.Checkbox
+                            )
+                        ) {
+                            Checkbox(
+                                checked = isCheck, onCheckedChange = null,
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = Color(0xFF2AB5F3),
+                                    uncheckedColor = Color.Black
+                                )
+                            )
+                            Text(text = "Ghi nhớ đăng nhập", modifier = Modifier.padding(start = 3.dp), color = Color.Black)
+                        }
                         Text(
                             text = "Quên mật khẩu",
                             fontSize = 15.sp,
@@ -171,63 +212,6 @@ fun LoginScreen(openRegister: () -> Unit,
                 }
             }
         }
-    }
-}
-
-@Composable
-fun TextFieldLogin(text: String, onTextChange: (String) -> Unit) {
-    OutlinedTextField(
-        value = text,
-        onValueChange = {onTextChange},
-        modifier = Modifier.width(370.dp),
-        placeholder = {},
-        textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
-    )
-}
-
-@Composable
-fun TextFieldPasswordLogin(password: String, isShowPassword: Boolean, onPasswordChange: (String) -> Unit, showPasswordChange: (Boolean) -> Unit) {
-    OutlinedTextField(
-        value = password,
-        onValueChange = {onPasswordChange},
-        modifier = Modifier.width(370.dp),
-        placeholder = {},
-        trailingIcon = {
-            IconButton(onClick = {showPasswordChange}) {
-                Icon(
-                    painterResource(
-                        id = if (isShowPassword) R.drawable.baseline_visibility_24
-                        else R.drawable.baseline_visibility_off_24
-                    ),
-                    contentDescription = null,
-                    tint = Color.Black,
-//                        modifier = Modifier.background(Color.Transparent)
-                )
-            }
-        },
-        textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
-        visualTransformation = if (isShowPassword) VisualTransformation.None
-        else PasswordVisualTransformation(),
-    )
-}
-
-@Composable
-fun CustomCheckBox(text: String, isCheck: Boolean, onCheckBoxChange: (Boolean) -> Unit) {
-    Row(
-        modifier = Modifier.selectable(
-            selected = isCheck,
-            onClick = {onCheckBoxChange},
-            role = Role.Checkbox
-        )
-    ) {
-        Checkbox(
-            checked = isCheck, onCheckedChange = null,
-            colors = CheckboxDefaults.colors(
-                checkedColor = Color(0xFF2AB5F3),
-                uncheckedColor = Color.Black
-            )
-        )
-        Text(text = text, modifier = Modifier.padding(start = 3.dp), color = Color.Black)
     }
 }
 
