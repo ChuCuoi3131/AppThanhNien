@@ -1,4 +1,4 @@
-package com.example.thanhnien
+package com.example.thanhnien.screens
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -47,7 +47,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.thanhnien.R
 import com.example.thanhnien.firebase.addAccountToFirebase
+import com.example.thanhnien.firebase.encodeToMD5
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 

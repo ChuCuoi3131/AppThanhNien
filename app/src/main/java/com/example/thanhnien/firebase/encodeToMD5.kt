@@ -1,4 +1,4 @@
-package com.example.thanhnien
+package com.example.thanhnien.firebase
 
 import java.security.MessageDigest
 

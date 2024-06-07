@@ -1,4 +1,4 @@
-package com.example.thanhnien
+package com.example.thanhnien.models
 
 import com.google.firebase.firestore.Exclude
 

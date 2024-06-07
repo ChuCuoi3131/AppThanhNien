@@ -2,7 +2,7 @@ package com.example.thanhnien.firebase
 
 import android.content.Context
 import android.widget.Toast
-import com.example.thanhnien.Account
+import com.example.thanhnien.models.Account
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 
