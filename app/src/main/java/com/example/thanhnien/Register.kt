@@ -217,9 +217,7 @@ fun RegisterScreen(openLoginScreen: () -> Unit) {
                         onClick = {
 
                             if (!fullname.isNullOrEmpty() && !email.isNullOrEmpty() && !password.isNullOrEmpty() && password.equals(
-                                    repassword
-                                )
-                            ) {
+                                    repassword) && isCheck) {
                                 val auth = FirebaseAuth.getInstance()
                                 auth.createUserWithEmailAndPassword(email, password)
                                     .addOnCompleteListener { task ->

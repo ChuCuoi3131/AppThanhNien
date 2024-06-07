@@ -1,5 +1,6 @@
 package com.example.thanhnien
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -43,6 +45,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.thanhnien.firebase.checkLoginAuthentication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(openRegister: () -> Unit,
@@ -97,6 +103,7 @@ fun LoginScreen(openRegister: () -> Unit,
                     var isCheck by remember {
                         mutableStateOf(false)
                     }
+                    var context = LocalContext.current
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Email",
@@ -174,7 +181,22 @@ fun LoginScreen(openRegister: () -> Unit,
                     Spacer(modifier = Modifier.height(40.dp))
                     Button(
                         onClick = {
-                                  openNewsScreen()
+                            if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    password = encodeToMD5(password)
+                                    val flag = checkLoginAuthentication(email, password, context)
+                                    if (flag) {
+                                        openNewsScreen()
+                                    }
+                                }
+
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Vui lòng nhập đầy đủ thông tin!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         },
                         modifier = Modifier
                             .width(360.dp)
