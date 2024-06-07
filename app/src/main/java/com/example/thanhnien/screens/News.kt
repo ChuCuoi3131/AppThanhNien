@@ -1,5 +1,7 @@
 package com.example.thanhnien.screens
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -35,8 +38,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,9 +55,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.thanhnien.R
+import com.example.thanhnien.firebase.checkLoginAuthentication
+import com.example.thanhnien.firebase.encodeToMD5
+import com.example.thanhnien.firebase.getGenreFromFirebase
+import com.example.thanhnien.firebase.getNewsFromFirebase
+import com.example.thanhnien.models.Genre
+import com.example.thanhnien.models.News
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(
@@ -64,6 +81,17 @@ fun NewsScreen(
         R.drawable.slider2,
         R.drawable.slider3
     )
+
+    var genreListState by remember { mutableStateOf<List<Genre>>(emptyList()) }
+    var newsListState by remember { mutableStateOf<List<News>>(emptyList()) }
+
+    LaunchedEffect(Unit) {
+        val genreList = getGenreFromFirebase()
+        genreListState = genreList
+        val newsList = getNewsFromFirebase(0)
+        newsListState = newsList
+    }
+
     Scaffold(
         Modifier.background(White),
         topBar = {
@@ -132,9 +160,11 @@ fun NewsScreen(
                         ),
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    items(5) {
+                    itemsIndexed(
+                        items = genreListState
+                    ) { _, item ->
                         Text(
-                            text = "Item",
+                            text = item.genreName,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
@@ -256,8 +286,10 @@ fun NewsScreen(
                 item() {
                     ImageSlider(images = images)
                 }
-                items(4) {
-                    MyCard()
+                itemsIndexed(
+                    items = newsListState
+                ) { _, item ->
+                    MyCard(item)
                 }
             }
         }
@@ -305,7 +337,7 @@ fun ImageSlider(images: List<Int>) {
 }
 
 @Composable
-fun MyCard() {
+fun MyCard(news: News) {
     Box(modifier = Modifier.fillMaxSize())
     {
         Card(
@@ -324,7 +356,7 @@ fun MyCard() {
                     .fillMaxSize()
             ) {
                 Image(
-                    painterResource(id = R.drawable.slider3),
+                    painter = rememberAsyncImagePainter(news.newsImgUrl),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -333,7 +365,7 @@ fun MyCard() {
                         .clip(RoundedCornerShape(20.dp))
                 )
                 Text(
-                    text = "text of the printing em Ipsum has been the indu",
+                    text = news.newsTitle,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(
@@ -344,7 +376,7 @@ fun MyCard() {
                         )
                 )
                 Text(
-                    text = "industry. Lorem Ipsum has been the industry's standard enturies, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently wit dummy texttu",
+                    text = news.newsDesc,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = Color.Gray,
@@ -364,7 +396,7 @@ fun MyCard() {
                         tint = Color(0xFF1B4BC4)
                         )
                     Text(
-                        text = "16:24 - 22/5/2024",
+                        text = news.newsCreatedAt,
                         fontSize = 12.sp,
                         color = Color.Gray,
                         modifier = Modifier.padding(start = 15.dp)
