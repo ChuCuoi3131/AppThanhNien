@@ -2,9 +2,11 @@ package com.example.thanhnien.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -36,10 +38,12 @@ import com.example.thanhnien.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    openServiceScreen : () -> Unit,
-    openDiscoverScreen: () -> Unit,
-    openNewsScreen: () -> Unit
-){
+    email: String,
+    fullName: String,
+    openServiceScreen: (email: String, fullName: String) -> Unit,
+    openDiscoverScreen: (email: String, fullName: String) -> Unit,
+    backNewsScreen: () -> Unit
+) {
     Scaffold(
         Modifier.background(Color.White),
         topBar = {
@@ -98,6 +102,19 @@ fun ProfileScreen(
                     }
                 },
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 75.dp
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Xin chào, ${fullName}", fontSize = 16.sp, color = Color.White)
+                    Text(text = "${email}", fontSize = 14.sp, color = Color.White)
+                }
+            }
         },
         bottomBar = {
             NavigationBar(
@@ -109,7 +126,7 @@ fun ProfileScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            openNewsScreen()
+                            backNewsScreen()
                         },
                         icon = {
                             Icon(
@@ -120,12 +137,12 @@ fun ProfileScreen(
                                     .offset(y = (5).dp)
                             )
                         },
-                        label = { Text(text = "Bảng tin",fontSize = 11.sp) }
+                        label = { Text(text = "Bảng tin", fontSize = 11.sp) }
                     )
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            openServiceScreen()
+                            openServiceScreen(email, fullName)
                         },
                         icon = {
                             Icon(
@@ -146,7 +163,7 @@ fun ProfileScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            openDiscoverScreen()
+                            openDiscoverScreen(email, fullName)
                         },
                         icon = {
                             Icon(
@@ -158,7 +175,7 @@ fun ProfileScreen(
                             )
                         },
                         label = {
-                            Text(text = "Khám phá",fontSize = 11.sp)
+                            Text(text = "Khám phá", fontSize = 11.sp)
                         }
                     )
                     NavigationBarItem(
@@ -205,9 +222,11 @@ fun ProfileScreen(
 
 @Preview
 @Composable
-fun DefaultPreviewProfileScreen(){
+fun DefaultPreviewProfileScreen() {
     ProfileScreen(
-        openDiscoverScreen = {},
-        openServiceScreen = {},
-        openNewsScreen = {})
+        email = "email",
+        fullName = "fullName",
+        openDiscoverScreen = {email, fullName ->  },
+        openServiceScreen = {email, fullName ->  },
+        backNewsScreen = {})
 }

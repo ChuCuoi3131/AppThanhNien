@@ -54,7 +54,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(openRegister: () -> Unit,
-                openNewsScreen:() -> Unit
+                openNewsScreen:(email: String, fullName: String) -> Unit
                 ) {
 
     Surface(
@@ -62,33 +62,30 @@ fun LoginScreen(openRegister: () -> Unit,
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .background(Color(0xFF2AB5F3))
                 .fillMaxSize()
-                .padding(5.dp, 0.dp)
+                .padding(10.dp)
         ) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Icon(Icons.Default.ArrowBack, contentDescription = null, tint = Color.White);
-            Spacer(modifier = Modifier.height(55.dp));
-            Text(text = "Đăng nhập", color = Color.White, fontSize = 40.sp);
-            Spacer(modifier = Modifier.height(30.dp));
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Đăng nhập", color = Color.White, fontSize = 40.sp)
+            Spacer(modifier = Modifier.height(30.dp))
             Text(
                 text = "Xin hãy nhập đủ thông tin để đăng nhập",
                 color = Color.White,
                 fontSize = 16.sp
-            );
-            Spacer(modifier = Modifier.height(22.dp));
+            )
+            Spacer(modifier = Modifier.height(22.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .padding(8.dp, 5.dp)
             ) {
                 Column(
+                    verticalArrangement = Arrangement.SpaceAround,
                     modifier = Modifier
                         .background(Color.White, shape = RoundedCornerShape(12.dp))
-                        .height(530.dp)
-                        .width(380.dp)
+                        .height(550.dp)
                         .fillMaxWidth()
                         .clip(shape = RoundedCornerShape(12.dp))
                         .padding(10.dp, 5.dp)
@@ -106,49 +103,56 @@ fun LoginScreen(openRegister: () -> Unit,
                         mutableStateOf(false)
                     }
                     var context = LocalContext.current
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Email",
-                        color = Color.Black,
-                        fontSize = 17.sp
-                    );
-                    OutlinedTextField(
-                        value = email,
-                        onValueChange = {
-                                        email = it
-                                        },
-                        modifier = Modifier.width(370.dp),
-                        placeholder = {},
-                        textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Mật khẩu", color = Color.Black, fontSize = 17.sp);
-                    OutlinedTextField(
-                        value = password,
-                        onValueChange = {
-                                        password = it
-                        },
-                        modifier = Modifier.width(370.dp),
-                        placeholder = {},
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                isShowPassword = !isShowPassword
-                            }) {
-                                Icon(
-                                    painterResource(
-                                        id = if (isShowPassword) R.drawable.baseline_visibility_24
-                                        else R.drawable.baseline_visibility_off_24
-                                    ),
-                                    contentDescription = null,
-                                    tint = Color.Black,
-                                )
-                            }
-                        },
-                        textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
-                        visualTransformation = if (isShowPassword) VisualTransformation.None
-                        else PasswordVisualTransformation(),
-                    )
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Column {
+                        Column {
+                            Text(
+                                text = "Email",
+                                color = Color.Black,
+                                fontSize = 16.sp
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            OutlinedTextField(
+                                value = email,
+                                onValueChange = {
+                                    email = it
+                                },
+                                modifier = Modifier.width(370.dp),
+                                placeholder = {},
+                                textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Column {
+                            Text(text = "Mật khẩu", color = Color.Black, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            OutlinedTextField(
+                                value = password,
+                                onValueChange = {
+                                    password = it
+                                },
+                                modifier = Modifier.width(370.dp),
+                                placeholder = {},
+                                trailingIcon = {
+                                    IconButton(onClick = {
+                                        isShowPassword = !isShowPassword
+                                    }) {
+                                        Icon(
+                                            painterResource(
+                                                id = if (isShowPassword) R.drawable.baseline_visibility_24
+                                                else R.drawable.baseline_visibility_off_24
+                                            ),
+                                            contentDescription = null,
+                                            tint = Color.Black,
+                                        )
+                                    }
+                                },
+                                textStyle = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold),
+                                visualTransformation = if (isShowPassword) VisualTransformation.None
+                                else PasswordVisualTransformation(),
+                            )
+                        }
+                    }
+//                    Spacer(modifier = Modifier.height(30.dp))
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
@@ -156,7 +160,8 @@ fun LoginScreen(openRegister: () -> Unit,
 //                    verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row(
-                            modifier = Modifier.selectable(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.height(20.dp).selectable(
                                 selected = isCheck,
                                 onClick = {
                                           isCheck = !isCheck
@@ -171,24 +176,24 @@ fun LoginScreen(openRegister: () -> Unit,
                                     uncheckedColor = Color.Black
                                 )
                             )
-                            Text(text = "Ghi nhớ đăng nhập", modifier = Modifier.padding(start = 3.dp), color = Color.Black)
+                            Text(text = "Ghi nhớ đăng nhập", fontSize = 16.sp, modifier = Modifier.padding(start = 3.dp), color = Color.Black)
                         }
                         Text(
                             text = "Quên mật khẩu",
-                            fontSize = 15.sp,
+                            fontSize = 16.sp,
                             color = Color.Black,
                             style = TextStyle(textDecoration = TextDecoration.Underline)
                         )
-                    };
-                    Spacer(modifier = Modifier.height(40.dp))
+                    }
+//                    Spacer(modifier = Modifier.height(40.dp))
                     Button(
                         onClick = {
                             if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
                                 CoroutineScope(Dispatchers.Main).launch {
                                     password = encodeToMD5(password)
-                                    val flag = checkLoginAuthentication(email, password, context)
-                                    if (flag) {
-                                        openNewsScreen()
+                                    val fullName = checkLoginAuthentication(email, password, context)
+                                    if (!fullName.isNullOrEmpty()) {
+                                        openNewsScreen(email, fullName)
                                     }
                                 }
 
@@ -209,21 +214,22 @@ fun LoginScreen(openRegister: () -> Unit,
                         )
                     ) {
                         Text(text = "Đăng nhập", fontSize = 20.sp)
-                    };
-                    Spacer(modifier = Modifier.height(120.dp))
+                    }
+//                    Spacer(modifier = Modifier.height(120.dp))
                     Row(
                         horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .width(380.dp),
                     ) {
                         Text(
                             text = "Bạn chưa có tài khoản?",
-                            fontSize = 17.sp,
+                            fontSize = 15.sp,
                             color = Color.Black
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
-                            text = "ĐĂNG KÍ NGAY", fontSize = 17.sp, color = Color.Blue,
+                            text = "ĐĂNG KÍ NGAY", fontSize = 15.sp, color = Color.Blue,
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 textDecoration = TextDecoration.Underline
@@ -244,6 +250,6 @@ fun LoginScreen(openRegister: () -> Unit,
 fun DefaultPreviewOfLoginScreen() {
     LoginScreen(
         openRegister = {},
-        openNewsScreen = {}
+        openNewsScreen = {email, fullName ->  }
         )
 }

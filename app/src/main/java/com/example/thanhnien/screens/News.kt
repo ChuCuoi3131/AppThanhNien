@@ -35,6 +35,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -72,9 +73,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(
-    openServiceScreen : () -> Unit,
-    openDiscoverScreen: () -> Unit,
-    openProfileScreen: () -> Unit
+    email: String,
+    fullName: String,
+    openServiceScreen: (email: String, fullName: String) -> Unit,
+    openDiscoverScreen: (email: String, fullName: String) -> Unit,
+    openProfileScreen: (email: String, fullName: String) -> Unit
 ) {
     val images = listOf(
         R.drawable.slider1,
@@ -163,14 +166,16 @@ fun NewsScreen(
                     itemsIndexed(
                         items = genreListState
                     ) { _, item ->
-                        Text(
-                            text = item.genreName,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            fontSize = 15.sp,
-                            color = White
-                        )
+                        TextButton(onClick = { /*TODO*/ }) {
+                            Text(
+                                text = item.genreName,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
+                                fontSize = 15.sp,
+                                color = White
+                            )
+                        }
                     }
                 }
             }
@@ -208,7 +213,7 @@ fun NewsScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                                  openServiceScreen()
+                                  openServiceScreen(email, fullName)
                         },
                         icon = {
                             Icon(
@@ -226,7 +231,7 @@ fun NewsScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                                  openDiscoverScreen()
+                                  openDiscoverScreen(email, fullName)
                         },
                         icon = {
                             Icon(
@@ -244,7 +249,7 @@ fun NewsScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                                  openProfileScreen()
+                                  openProfileScreen(email, fullName)
                         },
                         icon = {
                             Icon(
@@ -366,6 +371,7 @@ fun MyCard(news: News) {
                 )
                 Text(
                     text = news.newsTitle,
+                    maxLines = 2,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(
@@ -411,8 +417,10 @@ fun MyCard(news: News) {
 @Composable
 fun DefaultPreviewScreen() {
     NewsScreen(
-        openDiscoverScreen = {},
-        openServiceScreen = {},
-        openProfileScreen = {}
+        email = "",
+        fullName = "",
+        openDiscoverScreen = {email, fullName ->  },
+        openServiceScreen = {email, fullName ->  },
+        openProfileScreen = {email, fullName ->  }
     )
 }

@@ -11,8 +11,9 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.tasks.await
 
 @DelicateCoroutinesApi
-suspend fun checkLoginAuthentication(email: String, password: String, context: Context): Boolean {
-    var flag = false
+suspend fun checkLoginAuthentication(email: String, password: String, context: Context): String {
+//    var flag = false
+    var fullName: String = ""
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     try {
         val querySnapshot = db.collection("Account")
@@ -22,7 +23,13 @@ suspend fun checkLoginAuthentication(email: String, password: String, context: C
             .await()
 
         if (!querySnapshot.isEmpty) {
-            flag = true
+//            flag = true
+            val document = querySnapshot.documents.firstOrNull()
+            val accountData = document?.data
+            val fullname = accountData?.get("fullName") as? String
+            if (fullname != null) {
+                fullName = fullname
+            }
             Toast.makeText(context, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show()
@@ -30,7 +37,7 @@ suspend fun checkLoginAuthentication(email: String, password: String, context: C
     } catch (e: Exception) {
         Toast.makeText(context, "Đã xảy ra lỗi! Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show()
     }
-    return flag
+    return fullName
 }
 
 suspend fun getNewsFromFirebase(genreID: Int): List<News> {

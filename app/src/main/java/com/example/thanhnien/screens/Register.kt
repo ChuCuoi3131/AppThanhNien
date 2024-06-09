@@ -65,29 +65,27 @@ fun RegisterScreen(openLoginScreen: () -> Unit) {
             modifier = Modifier
                 .background(Color(0xFF2AB5F3))
                 .fillMaxSize()
-                .padding(5.dp, 0.dp)
+                .padding(10.dp)
         ) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Icon(Icons.Default.ArrowBack, contentDescription = null, tint = Color.White);
-            Spacer(modifier = Modifier.height(10.dp));
-            Text(text = "Đăng kí", color = Color.White, fontSize = 40.sp);
-            Spacer(modifier = Modifier.height(17.dp));
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Đăng kí", color = Color.White, fontSize = 40.sp)
+            Spacer(modifier = Modifier.height(17.dp))
             Text(
                 text = "Xin hãy nhập đủ thông tin để đăng nhập",
                 color = Color.White,
                 fontSize = 16.sp
-            );
-            Spacer(modifier = Modifier.height(22.dp));
+            )
+            Spacer(modifier = Modifier.height(22.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .padding(8.dp, 5.dp)
             ) {
                 Column(
+                    verticalArrangement = Arrangement.SpaceAround,
                     modifier = Modifier
                         .background(Color.White, shape = RoundedCornerShape(12.dp))
                         .height(650.dp)
-                        .width(380.dp)
                         .fillMaxWidth()
                         .clip(shape = RoundedCornerShape(12.dp))
                         .padding(10.dp, 5.dp)
@@ -111,96 +109,108 @@ fun RegisterScreen(openLoginScreen: () -> Unit) {
                         mutableStateOf(false)
                     }
                     var context = LocalContext.current
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Họ và tên", color = Color.Black, fontSize = 17.sp);
-                    OutlinedTextField(
-                        value = fullname,
-                        onValueChange = {
-                            fullname = it
-                        },
-                        modifier = Modifier
-                            .width(370.dp)
-                            .height(47.dp),
-                        placeholder = {},
-                        textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Email", color = Color.Black, fontSize = 17.sp);
-                    OutlinedTextField(
-                        value = email,
-                        onValueChange = {
-                            email = it
-                        },
-                        modifier = Modifier
-                            .width(370.dp)
-                            .height(47.dp),
-                        placeholder = {},
-                        textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Mật khẩu", color = Color.Black, fontSize = 17.sp);
-                    OutlinedTextField(
-                        value = password,
-                        onValueChange = {
-                            password = it
-                        },
-                        modifier = Modifier
-                            .width(370.dp)
-                            .height(47.dp),
-                        placeholder = {},
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                isShowPassword = !isShowPassword
-                            }) {
-                                Icon(
-                                    painterResource(
-                                        id = if (isShowPassword) R.drawable.baseline_visibility_24
-                                        else R.drawable.baseline_visibility_off_24
-                                    ),
-                                    contentDescription = null,
-                                    tint = Color.Black,
-                                )
-                            }
-                        },
-                        textStyle = TextStyle(color = Color.Black),
-                        visualTransformation = if (isShowPassword) VisualTransformation.None
-                        else PasswordVisualTransformation(),
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Nhập lại mật khẩu", color = Color.Black, fontSize = 17.sp);
-                    OutlinedTextField(
-                        value = repassword,
-                        onValueChange = {
-                            repassword = it
-                        },
-                        modifier = Modifier
-                            .width(370.dp)
-                            .height(47.dp),
-                        placeholder = {},
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                isShowPassword = !isShowPassword
-                            }) {
-                                Icon(
-                                    painterResource(
-                                        id = if (isShowPassword) R.drawable.baseline_visibility_24
-                                        else R.drawable.baseline_visibility_off_24
-                                    ),
-                                    contentDescription = null,
-                                    tint = Color.Black,
-                                )
-                            }
-                        },
-                        textStyle = TextStyle(color = Color.Black),
-                        visualTransformation = if (isShowPassword) VisualTransformation.None
-                        else PasswordVisualTransformation(),
-                    )
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Column {
+                        Column {
+                            Text(text = "Họ và tên", color = Color.Black, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            OutlinedTextField(
+                                value = fullname,
+                                onValueChange = {
+                                    fullname = it
+                                },
+                                modifier = Modifier
+                                    .width(370.dp)
+                                    .height(47.dp),
+                                placeholder = {},
+                                textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Column {
+                            Text(text = "Email", color = Color.Black, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            OutlinedTextField(
+                                value = email,
+                                onValueChange = {
+                                    email = it
+                                },
+                                modifier = Modifier
+                                    .width(370.dp)
+                                    .height(47.dp),
+                                placeholder = {},
+                                textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Column {
+                            Text(text = "Mật khẩu", color = Color.Black, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            OutlinedTextField(
+                                value = password,
+                                onValueChange = {
+                                    password = it
+                                },
+                                modifier = Modifier
+                                    .width(370.dp)
+                                    .height(47.dp),
+                                placeholder = {},
+                                trailingIcon = {
+                                    IconButton(onClick = {
+                                        isShowPassword = !isShowPassword
+                                    }) {
+                                        Icon(
+                                            painterResource(
+                                                id = if (isShowPassword) R.drawable.baseline_visibility_24
+                                                else R.drawable.baseline_visibility_off_24
+                                            ),
+                                            contentDescription = null,
+                                            tint = Color.Black,
+                                        )
+                                    }
+                                },
+                                textStyle = TextStyle(color = Color.Black),
+                                visualTransformation = if (isShowPassword) VisualTransformation.None
+                                else PasswordVisualTransformation(),
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Column {
+                            Text(text = "Nhập lại mật khẩu", color = Color.Black, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            OutlinedTextField(
+                                value = repassword,
+                                onValueChange = {
+                                    repassword = it
+                                },
+                                modifier = Modifier
+                                    .width(370.dp)
+                                    .height(47.dp),
+                                placeholder = {},
+                                trailingIcon = {
+                                    IconButton(onClick = {
+                                        isShowPassword = !isShowPassword
+                                    }) {
+                                        Icon(
+                                            painterResource(
+                                                id = if (isShowPassword) R.drawable.baseline_visibility_24
+                                                else R.drawable.baseline_visibility_off_24
+                                            ),
+                                            contentDescription = null,
+                                            tint = Color.Black,
+                                        )
+                                    }
+                                },
+                                textStyle = TextStyle(color = Color.Black),
+                                visualTransformation = if (isShowPassword) VisualTransformation.None
+                                else PasswordVisualTransformation(),
+                            )
+                        }
+                    }
                     Row(
                         modifier = Modifier.selectable(
                             selected = isCheck,
                             onClick = {
-                                      isCheck = !isCheck
+                                isCheck = !isCheck
                             },
                             role = Role.Checkbox
                         )
@@ -212,20 +222,26 @@ fun RegisterScreen(openLoginScreen: () -> Unit) {
                                 uncheckedColor = Color.Black
                             )
                         )
-                        Text(text = "Đồng ý với các điều khoản", modifier = Modifier.padding(start = 3.dp), color = Color.Black)
+                        Text(
+                            text = "Đồng ý với các điều khoản",
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(start = 3.dp),
+                            color = Color.Black
+                        )
                     }
-                    Spacer(modifier = Modifier.height(40.dp))
+
                     Button(
                         onClick = {
-
                             if (!fullname.isNullOrEmpty() && !email.isNullOrEmpty() && !password.isNullOrEmpty() && password.equals(
-                                    repassword) && isCheck) {
+                                    repassword
+                                ) && isCheck
+                            ) {
                                 val auth = FirebaseAuth.getInstance()
                                 auth.createUserWithEmailAndPassword(email, password)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             password = encodeToMD5(password)
-                                            var createdAt: LocalDate = LocalDate.now();
+                                            var createdAt: LocalDate = LocalDate.now()
                                             addAccountToFirebase(
                                                 email,
                                                 fullname,
@@ -261,20 +277,19 @@ fun RegisterScreen(openLoginScreen: () -> Unit) {
                         )
                     ) {
                         Text(text = "Đăng kí", fontSize = 20.sp)
-                    };
-                    Spacer(
-                        modifier = Modifier.height(30.dp)
-                    )
+                    }
+
                     Row(
                         horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .width(380.dp),
                     ) {
-                        Text(text = "Bạn đã có tài khoản?", fontSize = 17.sp, color = Color.Black)
+                        Text(text = "Bạn đã có tài khoản?", fontSize = 15.sp, color = Color.Black)
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
                             text = "ĐĂNG NHẬP NGAY",
-                            fontSize = 17.sp,
+                            fontSize = 15.sp,
                             color = Color.Blue,
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,

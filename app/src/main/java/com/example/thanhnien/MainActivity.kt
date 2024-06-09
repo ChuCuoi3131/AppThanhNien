@@ -10,9 +10,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.thanhnien.screens.DiscoverScreen
 import com.example.thanhnien.screens.LoginScreen
 import com.example.thanhnien.screens.NewsScreen
@@ -51,67 +53,127 @@ fun HomeScreen(){
                 openRegister = {
                     navController.navigate("register")
                 },
-                openNewsScreen = {
-                    navController.navigate("news")
+                openNewsScreen = { email, fullName ->
+                    navController.navigate("news/$email/$fullName")
                 }
             )
         }
         composable("register"){
             RegisterScreen(
                 openLoginScreen = {
-                    navController.navigate("login")
+                    navController.popBackStack("login", inclusive = false, saveState = true)
                 }
             )
         }
-        composable("news"){
+        composable("news/{email}/{fullName}",
+            arguments = listOf(
+                navArgument(name = "email") {
+                    type = NavType.StringType
+                },
+                navArgument(name = "fullName") {
+                    type = NavType.StringType
+                }
+            )
+        ){navBackStackEntry ->
+            var email = navBackStackEntry.arguments?.getString("email")
+            var fullName = navBackStackEntry.arguments?.getString("fullName")
+            requireNotNull(email)
+            requireNotNull(fullName)
             NewsScreen(
-                openDiscoverScreen = {
-                    navController.navigate("discover")
+                email = email,
+                fullName = fullName,
+                openDiscoverScreen = { email, fullname ->
+                    navController.navigate("discover/$email/$fullName")
                 },
-                openProfileScreen = {
-                    navController.navigate("profile")
+                openProfileScreen = { email, fullName ->
+                    navController.navigate("profile/$email/$fullName")
                 },
-                openServiceScreen = {
-                    navController.navigate("service")
+                openServiceScreen = { email, fullName ->
+                    navController.navigate("service/$email/$fullName")
                 }
             )
         }
-        composable("service"){
+        composable("service/{email}/{fullName}",
+            arguments = listOf(
+                navArgument(name = "email") {
+                    type = NavType.StringType
+                },
+                navArgument(name = "fullName") {
+                    type = NavType.StringType
+                }
+            )
+        ){ navBackStackEntry ->
+            var email = navBackStackEntry.arguments?.getString("email")
+            var fullName = navBackStackEntry.arguments?.getString("fullName")
+            requireNotNull(email)
+            requireNotNull(fullName)
             ServiceScreen(
-                openDiscoverScreen = {
-                    navController.navigate("discover")
+                email = email,
+                fullName = fullName,
+                openDiscoverScreen = { email, fullname ->
+                    navController.navigate("discover/$email/$fullName")
                 },
-                openProfileScreen = {
-                    navController.navigate("profile")
+                openProfileScreen = { email, fullname ->
+                    navController.navigate("profile/$email/$fullName")
                 },
-                openNewsScreen = {
-                    navController.navigate("news")
+                backNewsScreen = {
+                    navController.popBackStack("news/{email}/{fullName}", inclusive = false, saveState = true)
                 }
             )
         }
-        composable("profile"){
+        composable("profile/{email}/{fullName}",
+            arguments = listOf(
+                navArgument(name = "email") {
+                    type = NavType.StringType
+                },
+                navArgument(name = "fullName") {
+                    type = NavType.StringType
+                }
+            )
+        ){ navBackStackEntry ->
+            var email = navBackStackEntry.arguments?.getString("email")
+            var fullName = navBackStackEntry.arguments?.getString("fullName")
+            requireNotNull(email)
+            requireNotNull(fullName)
             ProfileScreen(
-                openServiceScreen = {
-                    navController.navigate("service")
+                email = email,
+                fullName = fullName,
+                openServiceScreen = { email, fullname ->
+                    navController.navigate("service/$email/$fullName")
                 },
-                openDiscoverScreen = {
-                    navController.navigate("discover")
+                openDiscoverScreen = { email, fullname ->
+                    navController.navigate("discover/$email/$fullName")
                 },
-                openNewsScreen = {
-                    navController.navigate("news")
+                backNewsScreen = {
+                    navController.popBackStack("news/{email}/{fullName}", inclusive = false, saveState = true)
                 }
             )
         }
-        composable("discover"){
+        composable("discover/{email}/{fullName}",
+            arguments = listOf(
+                navArgument(name = "email") {
+                    type = NavType.StringType
+                },
+                navArgument(name = "fullName") {
+                    type = NavType.StringType
+                }
+            )
+        ){  navBackStackEntry ->
+            var email = navBackStackEntry.arguments?.getString("email")
+            var fullName = navBackStackEntry.arguments?.getString("fullName")
+            requireNotNull(email)
+            requireNotNull(fullName)
             DiscoverScreen(
-                openServiceScreen = {
-                    navController.navigate("service")
+                email = email,
+                fullName = fullName,
+                openServiceScreen = { email, fullname ->
+                    navController.navigate("service/$email/$fullName")
                 },
-                openProfileScreen = {
-                    navController.navigate("profile")
+                openProfileScreen = { email, fullname ->
+                    navController.navigate("profile/$email/$fullName")
                 },
-                openNewsScreen = {
-                    navController.navigate("news")
+                backNewsScreen = {
+                    navController.popBackStack("news/{email}/{fullName}", inclusive = false, saveState = true)
                 })
         }
         composable("test"){

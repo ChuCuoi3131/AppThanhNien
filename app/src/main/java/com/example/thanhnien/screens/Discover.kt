@@ -42,9 +42,11 @@ import com.example.thanhnien.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiscoverScreen(
-    openNewsScreen: () -> Unit,
-    openProfileScreen: () -> Unit,
-    openServiceScreen: () -> Unit
+    email: String,
+    fullName: String,
+    backNewsScreen: () -> Unit,
+    openProfileScreen: (email: String, fullName: String) -> Unit,
+    openServiceScreen: (email: String, fullName: String) -> Unit
 ){
     Scaffold(
         Modifier.background(Color.White),
@@ -115,7 +117,7 @@ fun DiscoverScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            openNewsScreen()
+                            backNewsScreen()
                         },
                         icon = {
                             Icon(
@@ -131,7 +133,7 @@ fun DiscoverScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            openServiceScreen()
+                            openServiceScreen(email, fullName)
                         },
                         icon = {
                             Icon(
@@ -168,7 +170,7 @@ fun DiscoverScreen(
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            openProfileScreen()
+                            openProfileScreen(email, fullName)
                         },
                         icon = {
                             Icon(
@@ -238,8 +240,10 @@ fun DiscoverScreen(
 @Composable
 fun DefaultPreviewDiscoverScreen(){
     DiscoverScreen(
-        openNewsScreen = {},
-        openServiceScreen = {},
-        openProfileScreen = {}
+        email = "",
+        fullName = "",
+        backNewsScreen = {},
+        openServiceScreen = {email, fullname ->},
+        openProfileScreen = {email, fullname ->}
     )
 }
