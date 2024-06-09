@@ -167,7 +167,7 @@ fun NewsScreen(
                             text = item.genreName,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp),
+                                .padding(12.dp),
                             fontSize = 15.sp,
                             color = White
                         )
