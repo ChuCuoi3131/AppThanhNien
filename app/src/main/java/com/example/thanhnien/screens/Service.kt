@@ -1,10 +1,14 @@
 package com.example.thanhnien.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -14,6 +18,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -182,20 +188,50 @@ fun ServiceScreen(
                 }
             }
         }
-    ) { paddingValue ->
-        Column(
+    ) { paddingValues ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    start = 10.dp,
-                    top = paddingValue.calculateTopPadding(),
-                    end = 10.dp,
-                    bottom = paddingValue.calculateBottomPadding()
-                )
-                .clip(RoundedCornerShape(17.dp)),
-            verticalArrangement = Arrangement.SpaceBetween
+                .background(color = Color.LightGray)
+                .padding(paddingValues)
         ) {
-
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(15.dp)
+                    .clip(shape = RoundedCornerShape(10.dp))
+                    .background(color = Color.White),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                    Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Cyan
+                    ), shape = RoundedCornerShape(10.dp)) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Image(painter = painterResource(id = R.drawable.book), contentDescription = null, modifier = Modifier.size(100.dp, 100.dp))
+                            Text(text = "Học và thi", fontSize = 16.sp, color = Color.Black)
+                        }
+                    }
+                    Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Yellow
+                    ), shape = RoundedCornerShape(10.dp)) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Image(painter = painterResource(id = R.drawable.list), contentDescription = null, modifier = Modifier.size(100.dp, 100.dp))
+                            Text(text = "Tài liệu", fontSize = 16.sp, color = Color.Black)
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Green
+                ), shape = RoundedCornerShape(10.dp)) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Image(painter = painterResource(id = R.drawable.qna), contentDescription = null, modifier = Modifier.size(90.dp, 90.dp))
+                        Text(text = "Q&A", fontSize = 16.sp, color = Color.Black)
+                    }
+                }
+            }
         }
     }
 }
