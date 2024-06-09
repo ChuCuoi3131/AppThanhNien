@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.thanhnien.R
 import com.example.thanhnien.firebase.addAccountToFirebase
+import com.example.thanhnien.firebase.addProfileToFirebase
 import com.example.thanhnien.firebase.encodeToMD5
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
@@ -249,6 +250,17 @@ fun RegisterScreen(openLoginScreen: () -> Unit) {
                                                 0,
                                                 createdAt.toString(),
                                                 context
+                                            )
+                                            addProfileToFirebase(
+                                                email,
+                                                fullname,
+                                                "",
+                                                0,
+                                                "",
+                                                "",
+                                                "",
+                                                "",
+                                                ""
                                             )
                                             openLoginScreen()
                                         } else {

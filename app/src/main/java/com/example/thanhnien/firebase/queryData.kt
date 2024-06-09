@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 import com.example.thanhnien.models.Genre
 import com.example.thanhnien.models.News
+import com.example.thanhnien.models.Profile
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.tasks.await
@@ -64,4 +65,32 @@ suspend fun getGenreFromFirebase(): List<Genre> {
         genre?.let { genreList.add(it) }
     }
     return genreList
+}
+
+@DelicateCoroutinesApi
+suspend fun getProfileFromFirebaseByEmail(email: String, name: String): Profile {
+    var profile = Profile("", email, name, "", 0, "", "", "", "", "")
+    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    try {
+        val querySnapshot = db.collection("Profile")
+            .whereEqualTo("profileEmail", email)
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            val document = querySnapshot.documents.firstOrNull()
+            val id = document?.id
+            val accountData = document?.data
+            val dob = accountData?.get("profileDob") as? String
+            var gender = accountData?.get("profileGender") as? Int
+            if (gender == null) gender = 0 else gender = 1
+            val joinedAt = accountData?.get("profileJoinedAt") as? String
+            val role = accountData?.get("profileRole") as? String
+            val act = accountData?.get("profileACT") as? String
+            val ethnicity = accountData?.get("profileEthnicity") as? String
+            val religion = accountData?.get("profileReligion") as? String
+            profile = Profile(id, email, name, dob, gender, joinedAt, role, act, ethnicity, religion)
+        }
+    } catch (e: Exception) {}
+    return profile
 }
